@@ -1,0 +1,66 @@
+# app/config/security.yml
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        register:
+            pattern: ^/api/register
+            anonymous: true
+            stateless: true
+        main:
+            pattern: ^/*
+            form_login:
+                provider: fos_userbundle
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                csrf_token_generator: security.csrf.token_manager
+#                default_target_path: "%locale%"
+            oauth:
+                remember_me: true
+                resource_owners:
+                    facebook:           "/login/facebook"
+                    google:             "/login/google"
+                login_path:        /fr/login
+                failure_path:      /fr/login
+
+                oauth_user_provider:
+                    #this is my custom user provider, created from FOSUBUserProvider - will manage the
+                    #automatic user registration on your site, with data from the provider (facebook. google, etc.)
+                    service: my_user_provider
+            logout:
+                path:   fos_user_security_logout
+#                target: "%locale%"
+            anonymous:    true
+            remember_me:
+                secret:      "%secret%"
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+                domain:   ~ # Defaults to the current domain from $_SERVER
+#                secure:   true
+                httponly: true
+
+
+    access_control:
+        - { path: ^/api/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/_wdt, roles: IS_AUTHENTICATED_ANONYMOUSLY }         # allow wdt for debugging
+        - { path: ^/_profiler/, role: IS_AUTHENTICATED_ANONYMOUSLY }    # allow profiler for debugging
+        - { path: ^/bundles/, role: IS_AUTHENTICATED_ANONYMOUSLY }      # allow assets to be loaded anonymously
+
+        - { path: ^/[^/]+/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/[a-z]+/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/[a-z]+/ride/new, role: ROLE_USER }
+        - { path: ^/[a-z]+/profile/, role: ROLE_USER }
+#        - { path: ^/, role: ROLE_USER } # this must be the last match, as url patterns are checked in the order they appear

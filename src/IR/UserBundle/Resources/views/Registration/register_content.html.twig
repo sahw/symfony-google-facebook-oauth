@@ -1,0 +1,156 @@
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"/>
+<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+{% block stylesheets %}{% endblock %}
+
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{#
+ replace your theme, page login here
+ #}
+
+<div class="container">
+    <div class="block">
+        <div class="row">
+            <div class="col-md-10 col-sm-12 col-md-offset-1">
+                <div class="login-box {{ ot == '1'?'col-md-6 col-md-offset-3':'col-md-6' }}">
+                    {{ form_start (form, {'attr': {'class': ''}}) }}
+                    {% if(ot != '1') %}
+                        <header>
+                            <style>
+                                #register_user_address, #register_user_phone{
+                                    display: none;
+                                }
+                            </style>
+                            <h2 class="register-title">{{'Register' | trans }}</h2>
+                            <button class="btn btn-fb form-control height-100per radius-0">
+                                <div class="col-md-3">
+                                    <img src="{{ asset('images/facebook.png') }}" width="40px">
+                                </div>
+                                <div class="col-md-9 padding-top-10 bold">
+                                    {{ 'Connect with Facebook' | trans({}, 'messages') }}
+                                </div>
+                            </button>
+
+                            <button class="btn btn-white form-control height-100per radius-0 margin-top-10">
+                                <div class="col-md-3">
+                                    <img src="{{ asset('images/Google_icon.png') }}" width="40px">
+                                </div>
+                                <div class="col-md-9 padding-top-10 bold">
+                                    {{ 'Connect with Google'|trans({}, 'messages') }}
+                                </div>
+                            </button>
+                            <span class="line">
+                                <h2><span>{{ 'or' | trans({}, 'messages') }}</span></h2>
+                            </span>
+                        </header> 
+                            {% include "IRUserBundle::flashMessage.html.twig" %}
+                            {{ form_row(form.address, {'required':false }) }}
+                    {% else %}
+
+                        <script>
+                            window.onload = function () {
+                                document.getElementById("register_user_firstname").setAttribute('placeholder', "{{'Name of your office' | trans | raw}}");
+                            }
+                        </script>
+                        <header>
+                            <h2 class="register-title">{{'Special Registration Tourist Office' | trans }}</h2>                    
+                        </header> 
+                        {% include "IRUserBundle::flashMessage.html.twig" %}
+                    {% endif %}
+                    <input type="hidden" name="user_group" value="{{ ot == '1'?'1':'2' }}">
+                    {{ form_errors(form) }}                
+                    {{ form_end(form) }}
+                    {% set language = app.request.getLocale() %}
+                    <span class="font-12 line-height-18">{{'By signing up, you agree to the' | trans}}
+                    <a class='' href="{{ language == 'fr'?footer_TermCondition_fr:footer_TermCondition_link }}" target="_blank">{{ footer_TermCondition| trans }}</a>                                         
+                    </span>
+                </div>
+                {% if(ot != '1') %}
+                    <div class="col-md-6">
+                        <div class="col-md-12 register-ot">
+                            <div class="col-md-12 padding-0">
+                                <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">
+                                    <img src="{{asset('images/OTregister.png')}}" class="img img-responsive" alt="Register OT" >
+                                </a>
+                            </div>
+                            <div class="col-md-12 text-center language-text">
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'vous êtes'|upper}}</b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{ 'un office du tourisme ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'you are'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{ 'a tourist office ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'Sie sind '| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{ 'eine Tourismusinformation ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ '¿ usted es'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{ 'una oficina de turismo ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'voi siete'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{'Ufficio di turismo ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'você é'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{'um posto de turismo ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'вы'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{'туристический офис ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ 'あなたは、'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{'観光案内所 ?' | upper}}
+                                    </a>
+                                </p>
+                                <p>
+                                    <b class="amaticfont text-blue font-20 padding-right-10">{{ '你是'| upper}}  </b>
+                                    <a href="{{ path("fos_user_registration_register") }}?ot=1" class="tourist-Office">                                     
+                                        {{'旅游办公室 ?' | upper}}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="block">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3 user-register">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
