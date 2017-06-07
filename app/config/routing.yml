@@ -40,23 +40,15 @@ fos_user_logout:
     path: /logout
 
 #HWIOAuthBundle routes
-hwi_oauth_security:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix: /login
-
-hwi_oauth_connect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
-    prefix: /login
-
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /en/login
+    prefix:   /connect
 
 facebook_login:
-    path: /login/facebook
+    path: /login_facebook
 
 google_login:
-    path: /login/google
+    path: /login_google
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"

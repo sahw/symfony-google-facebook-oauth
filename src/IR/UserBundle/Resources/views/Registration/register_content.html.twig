@@ -28,23 +28,62 @@
                                 }
                             </style>
                             <h2 class="register-title">{{'Register' | trans }}</h2>
-                            <button class="btn btn-fb form-control height-100per radius-0">
+
+                            <script>
+                                window.fbAsyncInit = function() {
+                                    FB.init({
+                                        appId      : '{{ facebook_app_id }}',
+                                        cookie     : true,
+                                        xfbml      : true,
+                                        version    : 'v2.8'
+                                    });
+                                    FB.AppEvents.logPageView();
+                                };
+
+                                (function(d, s, id){
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) {return;}
+                                    js = d.createElement(s); js.id = id;
+                                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+
+                                function fb_login() {
+                                    FB.getLoginStatus(function(response) {
+                                        if (response.status === 'connected') {
+                                            // connected
+                                            // Already connected, redirect to login page to create token
+                                            document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                                        } else {
+                                            // not_authorized
+                                            FB.login(function(response) {
+                                                if (response.authResponse) {
+                                                    document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                                                } else {
+                                                    // Cancelled
+                                                }
+                                            }, {scope: 'email'});
+                                        }
+                                    });
+                                }
+                            </script>
+                            <a class="btn btn-fb form-control height-100per radius-0" href="#" onclick="fb_login();">
                                 <div class="col-md-3">
                                     <img src="{{ asset('images/facebook.png') }}" width="40px">
                                 </div>
                                 <div class="col-md-9 padding-top-10 bold">
                                     {{ 'Connect with Facebook' | trans({}, 'messages') }}
                                 </div>
-                            </button>
+                            </a>
 
-                            <button class="btn btn-white form-control height-100per radius-0 margin-top-10">
+                            <a class="btn btn-white form-control height-100per radius-0 margin-top-10" href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
                                 <div class="col-md-3">
                                     <img src="{{ asset('images/Google_icon.png') }}" width="40px">
                                 </div>
                                 <div class="col-md-9 padding-top-10 bold">
                                     {{ 'Connect with Google'|trans({}, 'messages') }}
                                 </div>
-                            </button>
+                            </a>
                             <span class="line">
                                 <h2><span>{{ 'or' | trans({}, 'messages') }}</span></h2>
                             </span>

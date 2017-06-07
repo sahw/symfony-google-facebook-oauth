@@ -27,10 +27,10 @@ security:
             oauth:
                 remember_me: true
                 resource_owners:
-                    facebook:           "/login/facebook"
-                    google:             "/login/google"
-                login_path:        /fr/login
-                failure_path:      /fr/login
+                    facebook:      /login_facebook
+                    google:        /login_google
+                login_path:        /connect
+                failure_path:      /connect
 
                 oauth_user_provider:
                     #this is my custom user provider, created from FOSUBUserProvider - will manage the
